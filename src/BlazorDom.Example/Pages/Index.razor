@@ -1,0 +1,34 @@
+﻿@using BlazorDom
+@using BlazorDom.DomElementAdapter
+@inject BlazorDom.DomElementAdapter.HtmlDocument htmlDocument;
+@inject ExampleJsInterop service;
+@page "/"
+
+<h3>@result</h3>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+
+<button @onclick="clearEvent">Clear Events</button>
+
+@code{
+    private string result { get; set; } = "";
+    DomEventHandler domEventHandler;
+    protected override async Task OnInitializedAsync()
+    {
+        var body = await htmlDocument.Body();
+
+        domEventHandler = await (await body.FindAllAsync("div.box")).AddEventListenerAsync("click", async x =>
+        {
+            var count = await (await body.FindAllAsync("div.box")).CountAsync();
+            result = $"{count.ToString()} div's is found";
+            StateHasChanged();
+        });
+    }
+
+    public async Task clearEvent()
+    {
+        if (domEventHandler != null)
+            await domEventHandler.RemoveHandler();
+    }
+}
