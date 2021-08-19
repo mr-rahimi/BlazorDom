@@ -23,11 +23,11 @@ namespace BlazorDom.DomElementAdapter
             var objectReference = await module.InvokeAsync<IJSInProcessObjectReference>("findAll", selector);
             return new DomElementList(objectReference);
         }
-        public async Task<BodyElement> Body()
+        public async Task<DomElement> Body()
         {
             var module = await _ImportModule.GetModule();
             var objectReference = await module.InvokeAsync<IJSInProcessObjectReference>("find", "body");
-            return new BodyElement(objectReference);
+            return new DomElement(objectReference);
         }
     }
 }

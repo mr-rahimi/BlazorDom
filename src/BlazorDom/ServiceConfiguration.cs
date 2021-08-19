@@ -9,7 +9,6 @@ namespace BlazorDom
         {
             services.AddScoped<IImportModule, ImportModule>();
             services.AddScoped<HtmlDocument>();
-            services.AddScoped<ExampleJsInterop>();
         }
     }
 }
